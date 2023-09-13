@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-const booksCtrl = require('../controllers/books');
+const booksControllers = require('../controllers/books');
 
 //Définition des routes :
 router.post('/', auth, multer.imageUploader.single('image'), multer.imgResize, booksControllers.createBook);

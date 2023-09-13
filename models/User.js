@@ -1,5 +1,3 @@
-//Ce code définit un schéma de modèle pour les utilisateurs dans une base de données MongoDB en utilisant Mongoose. Il inclut également le plugin mongoose-unique-validator pour la validation des champs uniques. 
-
 //Importation des modules nécessaires :
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
