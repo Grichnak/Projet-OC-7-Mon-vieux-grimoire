@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Book = require('./models/Book');
+//const Book = require('./models/Book');
+
 const booksRoutes = require('./routes/books');
 const userRoutes = require('./routes/user')
 
@@ -19,9 +20,6 @@ app.use(express.json()); //mets à disposition le contenu de toutes les requetes
 app.use(bodyParser.json());
 
 //les headers permettent: d'accéder à notre API depuis n'importe quelle origine ( via '*' ); d'ajouter les headers mentionnés aux requêtes envoyées vers notre API (Origin , X-Requested-With , etc.) ; d'envoyer des requêtes avec les méthodes mentionnées ( GET ,POST , etc.).;
-
-
-
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

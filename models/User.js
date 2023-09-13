@@ -8,7 +8,6 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true }
 });
 
-//Ajout du plugin mongoose-unique-validator pour simplifier la validation des champs uniques et fournit des messages d'erreur spécifiques si une contrainte d'unicité n'est pas respectée.
 userSchema.plugin(uniqueValidator);
 
 //Exportation du modèle d'utilisateur :
