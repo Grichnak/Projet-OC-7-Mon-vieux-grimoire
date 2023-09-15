@@ -12,7 +12,7 @@ exports.createBook = (req, res, next) => {
     });
 
     book.save()
-        .then(() => { res.status(201).json({ message: 'Book saved' }) })
+        .then(() => { res.status(201).json({ message: 'Livre enregistré' }) })
         .catch(error => { res.status(400).json({ error }) });
 };
 
@@ -26,10 +26,10 @@ exports.modifyBook = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
         .then((book => {
             if (book.userId != req.auth.userId) {
-                res.status(401).json({ message: 'Not Authorized' });
+                res.status(401).json({ message: 'Non autorisé' });
             } else {
                 Book.updateOne({ _id: req.params.id }, { ...bookObject, _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'Book modified' }))
+                    .then(() => res.status(200).json({ message: 'Livre modifié' }))
                     .catch(error => res.status(401).json({ error }));
             }
         }))
@@ -40,12 +40,12 @@ exports.deleteBook = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
         .then(book => {
             if (book.userId != req.auth.userId) {
-                res.status(401).json({ message: 'Unauthorized' })
+                res.status(401).json({ message: 'Non autorisé' })
             } else {
                 const filename = book.imageUrl.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
                     Book.deleteOne({ _id: req.params.id })
-                        .then(() => { res.status(200).json({ message: 'Book deleted' }) })
+                        .then(() => { res.status(200).json({ message: 'Livre supprimé' }) })
                         .catch(error => res.status(401).json({ error }));
                 })
             };
@@ -82,7 +82,7 @@ exports.postRatingBook = (req, res, next) => {
         .then(book => {
             const userHaveNotRated = book.ratings.every(rating => rating.userId !== req.auth.userId)
             if (userHaveNotRated === false) {
-                res.status(401).json({ message: 'Book already rated by user' });
+                res.status(401).json({ message: "Livre déjà évalué par l'utilisateur" });
                 return
             } else {
                 Book.findOneAndUpdate({ _id: req.params.id }, { $push: { ratings: ratingObject } })

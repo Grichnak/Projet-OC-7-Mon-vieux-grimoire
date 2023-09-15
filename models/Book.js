@@ -1,5 +1,3 @@
-//Ce code définit un schéma de modèle pour les livres dans une base de données MongoDB en utilisant Mongoose. Le schéma inclut des informations telles que l'identifiant de l'utilisateur, le titre du livre, l'auteur, l'URL de l'image, l'année de publication, le genre, les évaluations, et la note moyenne. 
-
 const mongoose = require('mongoose');
 
 //Définition du schéma du livre :

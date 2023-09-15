@@ -8,7 +8,7 @@ const normalizePort = val => {
         return val;
 
     }
-    if (port >= 0){
+    if (port >= 0) {
         return port;
     }
     return false;
@@ -30,11 +30,11 @@ const errorHandler = error => {
     const bind = typeof adress === 'string' ? 'pipe' + adress : 'port' + port;
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + 'requires elevated privileges');
+            console.error(bind + 'autorisation élevée requise');
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + 'is already in use.');
+            console.error(bind + "déjà en cours d'utilisation");
             process.exit(1);
             break;
         default:
@@ -48,10 +48,10 @@ const server = http.createServer(app);
 //un écouteur d'évènements est également enregistré, consignant le port ou le canal nommé sur lequel le serveur s'exécute dans la console
 
 server.on('error', errorHandler);
-server.on('listening', () =>{
+server.on('listening', () => {
     const address = server.address();
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
     console.log('Listening on ' + bind);
 });
 
-server.listen (port);
+server.listen(port);

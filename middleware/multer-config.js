@@ -1,61 +1,41 @@
-const multer = require('multer')
-const sharp = require('sharp')
-const path = require('path')
+const multer = require('multer');
+const sharp = require('sharp');
 
 const MIME_TYPES = {
     'image/jpg': 'jpg',
-    'image/jpeg': 'jpeg',
-    'image/png': 'png',
-}
+    'image/jpeg': 'jpg',
+    'image/png': 'png'
+};
 
-// Configuration du stockage pour les fichiers téléchargés
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, 'images')
-    },
-    filename: (req, file, callback) => {
-        const name = file.originalname.split(' ').join('_')
-        const extension = MIME_TYPES[file.mimetype]
-        callback(null, name + '_' + Date.now() + '.' + extension)
-    },
-})
+const storage = multer.memoryStorage();
 
-// Configuration de l'upload des fichiers avec multer
-const upload = multer({
-    storage: storage,
-    fileFilter: (req, file, callback) => {
-        if (MIME_TYPES[file.mimetype]) {
-            callback(null, true)
-        } else {
-            callback(new Error('Type de fichier invalide !'))
-        }
-    },
-}).single('image')
-
-// Middleware pour le redimensionnement d'images avec Sharp
-const resizeImage = (req, res, next) => {
-    if (!req.file) {
-        return next()
+const filter = (req, file, cb) => {
+    if (file.mimetype.split("/")[0] === 'image') {
+        cb(null, true);
+    } else {
+        cb(new Error("Seules le simages sont autorisées!"));
     }
+};
 
-    const filePath = req.file.path
+exports.imageUploader = multer({
+    storage,
+    fileFilter: filter
+});
 
-    sharp(filePath)
-        .resize({ width: 160, height: 260 })
-        .toBuffer()
-        .then((data) => {
-            sharp(data)
-                .toFile(filePath)
-                .then(() => {
-                    next()
-                })
-                .catch((error) => {
-                    next(error)
-                })
-        })
-}
+exports.imgResize = async (req, res, next) => {
+    if (req.file) {
+        const name = req.file.originalname.split(' ').join('_');
+        const extension = MIME_TYPES[req.file.mimetype];
+        const newName = name + Date.now() + '.' + extension;
 
-module.exports = {
-    upload,
-    resizeImage,
-}
+        const path = `./images/${newName}`;
+
+        await sharp(req.file.buffer)
+            .resize(207, 260)
+            .toFile(path);
+        res.locals.newName = newName;
+        next();
+    } else {
+        next();
+    }
+};
