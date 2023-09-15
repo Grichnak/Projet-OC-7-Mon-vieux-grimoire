@@ -13,7 +13,7 @@ const filter = (req, file, cb) => {
     if (file.mimetype.split("/")[0] === 'image') {
         cb(null, true);
     } else {
-        cb(new Error("Seules le simages sont autorisées!"));
+        cb(new Error("Seules les images sont autorisées!"));
     }
 };
 
