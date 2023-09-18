@@ -8,8 +8,6 @@ const path = require('path');
 const booksRoutes = require('./routes/books');
 const userRoutes = require('./routes/user');
 
-//const mongodbUser = process.env.MONGODB_USER;
-//const mongodbPassword = process.env.MONGODB_PASSWORD;
 
 const app = express();
 
